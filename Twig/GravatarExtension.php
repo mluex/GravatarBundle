@@ -1,14 +1,17 @@
 <?php
 
-namespace Ornicar\GravatarBundle\Twig;
+namespace Mluex\GravatarBundle\Twig;
 
-use Ornicar\GravatarBundle\Templating\Helper\GravatarHelperInterface;
+use Mluex\GravatarBundle\Templating\Helper\GravatarHelperInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 /**
  * @author Thibault Duplessis
  * @author Henrik Bjornskov   <hb@peytz.dk>
+ * @author Marius Luexmann   <m.luexmann@gmail.com>
  */
-class GravatarExtension extends \Twig_Extension implements GravatarHelperInterface
+class GravatarExtension extends AbstractExtension implements GravatarHelperInterface
 {
     /**
      * @var GravatarHelperInterface
@@ -25,51 +28,61 @@ class GravatarExtension extends \Twig_Extension implements GravatarHelperInterfa
 
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('gravatar', array($this, 'getUrl')),
-            new \Twig_SimpleFunction('gravatar_hash', array($this, 'getUrlForHash')),
-            new \Twig_SimpleFunction('gravatar_profile', array($this, 'getProfileUrl')),
-            new \Twig_SimpleFunction('gravatar_profile_hash', array($this, 'getProfileUrlForHash')),
-            new \Twig_SimpleFunction('gravatar_exists', array($this, 'exists')),
-        );
+        return [
+            new TwigFunction('gravatar', [$this, 'getUrl']),
+            new TwigFunction('gravatar_hash', [$this, 'getUrlForHash']),
+            new TwigFunction('gravatar_profile', [$this, 'getProfileUrl']),
+            new TwigFunction('gravatar_profile_hash', [$this, 'getProfileUrlForHash']),
+            new TwigFunction('gravatar_exists', [$this, 'exists']),
+        ];
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getUrl($email, $size = null, $rating = null, $default = null, $secure = true)
-    {
+    public function getUrl(
+        string $email,
+        ?int $size = null,
+        ?string $rating = null,
+        ?string $default = null,
+        bool $secure = true
+    ): string {
         return $this->baseHelper->getUrl($email, $size, $rating, $default, $secure);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getUrlForHash($hash, $size = null, $rating = null, $default = null, $secure = true)
-    {
+    public function getUrlForHash(
+        string $hash,
+        ?int $size = null,
+        ?string $rating = null,
+        ?string $default = null,
+        bool $secure = true
+    ): string {
         return $this->baseHelper->getUrlForHash($hash, $size, $rating, $default, $secure);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getProfileUrl($email, $secure = true)
+    public function getProfileUrl(string $email, bool $secure = true): string
     {
         return $this->baseHelper->getProfileUrl($email, $secure);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getProfileUrlForHash($hash, $secure = true)
+    public function getProfileUrlForHash(string $hash, bool $secure = true): string
     {
         return $this->baseHelper->getProfileUrlForHash($hash, $secure);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function exists($email)
+    public function exists(string $email): bool
     {
         return $this->baseHelper->exists($email);
     }
@@ -79,6 +92,6 @@ class GravatarExtension extends \Twig_Extension implements GravatarHelperInterfa
      */
     public function getName()
     {
-        return 'ornicar_gravatar';
+        return 'mluex_gravatar';
     }
 }

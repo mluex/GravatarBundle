@@ -1,6 +1,6 @@
 <?php
 
-namespace Ornicar\GravatarBundle\DependencyInjection;
+namespace Mluex\GravatarBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
@@ -8,12 +8,22 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
-class OrnicarGravatarExtension extends Extension
+/**
+ * Class MluexGravatarExtension
+ * @package Mluex\GravatarBundle\DependencyInjection
+ */
+class MluexGravatarExtension extends Extension
 {
+    /**
+     * @param array            $configs
+     * @param ContainerBuilder $container
+     *
+     * @throws \Exception
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(array(__DIR__.'/../Resources/config')));
-        $loader->load('config.xml');
+        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('services.xml');
 
         $configuration = new Configuration();
         $processor = new Processor();

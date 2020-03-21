@@ -1,7 +1,7 @@
 {
-    "name": "ornicar/gravatar-bundle",
-    "description": "This bundles provides a Gravatar API various utilities to work with it in templates",
-    "keywords": ["symfony2", "gravatar", "templating", "twig"],
+    "name": "mluex/gravatar-bundle",
+    "description": "Simple wrapper to gravatar API for Symfony 5 - Forked from ornicar/gravatar-bundle",
+    "keywords": ["symfony5", "gravatar", "twig"],
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [{
@@ -11,28 +11,26 @@
     {
         "name" : "Henrik Bjørnskov",
         "email" : "henrik@bjrnskov.dk"
+    },
+    {
+        "name" : "Marius Luexmann",
+        "email" : "m.luexmann@gmail.com"
     }],
     "require": {
-        "php": ">=5.3.0",
-        "symfony/framework-bundle" : "~4.0|~3.0|~2.3",
-        "symfony/templating": "~4.0|~3.0|~2.0"
-    },
-    "require-dev": {
-        "twig/extensions": "1.0.*",
-        "symfony/phpunit-bridge": "~2.7"
-    },
-    "suggest" : {
-        "twig/twig" : "For gravatar twig extension usage"
+        "php": "^7.1",
+        "symfony/framework-bundle" : "^5.0| ^4.3",
+        "symfony/templating": "^5.0| ^4.3",
+        "symfony/twig-bundle": "^5.0| ^4.3"
     },
     "conflict": {
+        "ornicar/gravatar-bundle": ">=1.0.0",
         "twig/twig": "<1.12"
     },
     "autoload": {
-        "psr-0": {
-            "Ornicar\\GravatarBundle\\": ""
+        "psr-4": {
+            "Mluex\\GravatarBundle\\": ""
         }
     },
-    "target-dir" : "Ornicar/GravatarBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "1.1-dev"

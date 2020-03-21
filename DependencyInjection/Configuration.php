@@ -1,19 +1,29 @@
 <?php
 
-namespace Ornicar\GravatarBundle\DependencyInjection;
+namespace Mluex\GravatarBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+/**
+ * Class Configuration
+ * @package Mluex\GravatarBundle\DependencyInjection
+ */
 class Configuration implements ConfigurationInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('ornicar_gravatar', 'array');
+        $treeBuilder = new TreeBuilder('mluex_gravatar', 'array');
+
+        if (method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->getRootNode();
+        } else {
+            // BC for symfony/config < 4.2
+            $rootNode = $treeBuilder->root('mluex_gravatar', 'array');
+        }
         $rootNode
             ->children()
                 ->scalarNode('size')->defaultValue('80')->end()

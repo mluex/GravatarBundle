@@ -1,34 +1,50 @@
 <?php
 
-namespace Ornicar\GravatarBundle\Templating\Helper;
+namespace Mluex\GravatarBundle\Templating\Helper;
 
+/**
+ * Interface GravatarHelperInterface
+ * @package Mluex\GravatarBundle\Templating\Helper
+ */
 interface GravatarHelperInterface
 {
     /**
      * Returns a url for a gravatar.
      *
-     * @param string $email
-     * @param int    $size
-     * @param string $rating
-     * @param string $default
-     * @param bool   $secure
+     * @param string      $email
+     * @param int|null    $size
+     * @param string|null $rating
+     * @param string|null $default
+     * @param bool        $secure
      *
      * @return string
      */
-    public function getUrl($email, $size = null, $rating = null, $default = null, $secure = true);
+    public function getUrl(
+        string $email,
+        ?int $size = null,
+        ?string $rating = null,
+        ?string $default = null,
+        bool $secure = true
+    ): string;
 
     /**
      * Returns a url for a gravatar for a given hash.
      *
-     * @param string $hash
-     * @param int    $size
-     * @param string $rating
-     * @param string $default
-     * @param bool   $secure
+     * @param string      $hash
+     * @param int|null    $size
+     * @param string|null $rating
+     * @param string|null $default
+     * @param bool        $secure
      *
      * @return string
      */
-    public function getUrlForHash($hash, $size = null, $rating = null, $default = null, $secure = true);
+    public function getUrlForHash(
+        string $hash,
+        ?int $size = null,
+        ?string $rating = null,
+        ?string $default = null,
+        bool $secure = true
+    ): string;
 
     /**
      * Returns a url for a gravatar profile.
@@ -38,7 +54,7 @@ interface GravatarHelperInterface
      *
      * @return string
      */
-    public function getProfileUrl($email, $secure = true);
+    public function getProfileUrl(string $email, bool $secure = true): string;
 
     /**
      * Returns a url for a gravatar profile, for the given hash.
@@ -48,7 +64,7 @@ interface GravatarHelperInterface
      *
      * @return string
      */
-    public function getProfileUrlForHash($hash, $secure = true);
+    public function getProfileUrlForHash(string $hash, bool $secure = true): string;
 
     /**
      * Returns true if a avatar could be found for the email.
@@ -57,5 +73,5 @@ interface GravatarHelperInterface
      *
      * @return bool
      */
-    public function exists($email);
+    public function exists(string $email): bool;
 }

@@ -1,35 +1,36 @@
 <?php
 
-namespace Ornicar\GravatarBundle;
+namespace Mluex\GravatarBundle;
 
 /**
  * Simple wrapper to the gravatar API
  * http://en.gravatar.com/site/implement/url.
  *
  * Usage:
- *      \Bundle\GravatarBundle\GravatarApi::getUrl('henrik@bearwoods.dk', 80, 'g', 'mm');
+ *      \Mluex\GravatarBundle\GravatarApi::getUrl('henrik@bearwoods.dk', 80, 'g', 'mm');
  *
  * @author     Thibault Duplessis <thibault.duplessis@gmail.com>
  * @author     Henrik Bjørnskov <henrik@bearwoods.dk>
+ * @author     Marius Luexmann <m.luexmann@gmail.com>
  */
 class GravatarApi
 {
     /**
-     * @var array array of default options that can be overriden with getters and in the construct
+     * @var array Array of default options that can be overridden with getters and in the construct
      */
-    protected $defaults = array(
+    protected $defaults = [
         'size'    => 80,
         'rating'  => 'g',
         'default' => null,
         'secure'  => true,
-    );
+    ];
 
     /**
      * Constructor.
      *
      * @param array $options the array is merged with the defaults
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         $this->defaults = array_merge($this->defaults, $options);
     }
@@ -37,16 +38,21 @@ class GravatarApi
     /**
      * Returns a url for a gravatar.
      *
-     * @param string $email
-     * @param int    $size
-     * @param string $rating
-     * @param string $default
-     * @param bool   $secure
+     * @param string      $email
+     * @param int|null    $size
+     * @param string|null $rating
+     * @param string|null $default
+     * @param bool        $secure
      *
      * @return string
      */
-    public function getUrl($email, $size = null, $rating = null, $default = null, $secure = true)
-    {
+    public function getUrl(
+        string $email,
+        ?int $size = null,
+        ?string $rating = null,
+        ?string $default = null,
+        bool $secure = true
+    ): string {
         $hash = md5(strtolower(trim($email)));
 
         return $this->getUrlForHash($hash, $size, $rating, $default, $secure);
@@ -55,25 +61,30 @@ class GravatarApi
     /**
      * Returns a url for a gravatar for the given hash.
      *
-     * @param string $hash
-     * @param int    $size
-     * @param string $rating
-     * @param string $default
-     * @param bool   $secure
+     * @param string      $hash
+     * @param int|null    $size
+     * @param string|null $rating
+     * @param string|null $default
+     * @param bool        $secure
      *
      * @return string
      */
-    public function getUrlForHash($hash, $size = null, $rating = null, $default = null, $secure = true)
-    {
-        $map = array(
+    public function getUrlForHash(
+        $hash,
+        ?int $size = null,
+        ?string $rating = null,
+        ?string $default = null,
+        bool $secure = true
+    ): string {
+        $map = [
             's' => $size ?: $this->defaults['size'],
             'r' => $rating ?: $this->defaults['rating'],
             'd' => $default ?: $this->defaults['default'],
-        );
+        ];
 
         $secure = isset($secure) ? $secure : $this->defaults['secure'];
 
-        return ($secure ? 'https://secure' : 'http://www').'.gravatar.com/avatar/'.$hash.'?'.http_build_query(array_filter($map));
+        return ($secure ? 'https://secure' : 'http://www') . '.gravatar.com/avatar/' . $hash . '?' . http_build_query(array_filter($map));
     }
 
     /**
@@ -84,7 +95,7 @@ class GravatarApi
      *
      * @return string
      */
-    public function getProfileUrl($email, $secure = true)
+    public function getProfileUrl(string $email, bool $secure = true): string
     {
         $hash = md5(strtolower(trim($email)));
 
@@ -99,11 +110,11 @@ class GravatarApi
      *
      * @return string
      */
-    public function getProfileUrlForHash($hash, $secure = true)
+    public function getProfileUrlForHash(string $hash, bool $secure = true): string
     {
         $secure = $secure ?: $this->defaults['secure'];
 
-        return ($secure ? 'https://secure' : 'http://www').'.gravatar.com/'.$hash;
+        return ($secure ? 'https://secure' : 'http://www') . '.gravatar.com/' . $hash;
     }
 
     /**
@@ -114,15 +125,15 @@ class GravatarApi
      *
      * @return bool|null Boolean if we could connect, null if no connection to gravatar.com
      */
-    public function exists($email)
+    public function exists(string $email): ?bool
     {
         $path = $this->getUrl($email, null, null, '404');
 
         if (!$sock = @fsockopen('gravatar.com', 80, $errorNo, $error)) {
-            return;
+            return null;
         }
 
-        fwrite($sock, 'HEAD '.$path." HTTP/1.0\r\n\r\n");
+        fwrite($sock, 'HEAD ' . $path . " HTTP/1.0\r\n\r\n");
         $header = fgets($sock, 128);
         fclose($sock);
 
