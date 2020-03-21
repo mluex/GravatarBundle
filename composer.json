@@ -30,11 +30,6 @@
         "psr-4": {
             "Mluex\\GravatarBundle\\": ""
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.1-dev"
-        }
     }
 }
 
