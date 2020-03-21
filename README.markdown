@@ -3,7 +3,7 @@ GravatarBundle
 
 **Deprecated**
 
-[![Build Status](https://travis-ci.org/henrikbjorn/GravatarBundle.svg?branch=master)](https://travis-ci.org/henrikbjorn/GravatarBundle)
+[![Build Status](https://travis-ci.org/mluex/gravatar-bundle.svg?branch=master)](https://travis-ci.org/mluex/gravatar-bundle)
 
 Installation
 ------------
@@ -12,42 +12,32 @@ Installation
 
   ```json
   "require": { 
-      "ornicar/gravatar-bundle" : "~1.0"
+      "mluex/gravatar-bundle" : "~1.0"
   }
   ```
 
   2. Run composer update to install the bundle and regenerate the autoloader
   
   ```bash
-  $ composer update ornicar/gravatar-bundle
+  $ composer update mluex/gravatar-bundle
   ```
 
-  3. Add this bundle to your application's kernel:
+  3. Add this bundle to your bundles.php:
 
   ```php
-  // application/ApplicationKernel.php
-  public function registerBundles()
-  {
-      return array(
-          // ...
-          new Ornicar\GravatarBundle\OrnicarGravatarBundle(),
-          // ...
-      );
-  }
+  // config/bundles.php
+  return [
+      // ...
+      new Mluex\GravatarBundle\MluexGravatarBundle(),
+      // ...
+  ];
   ```
 
-  4. Configure the `gravatar` service, templating helper and Twig extension in your config:
+  4. If you always have some default for your gravatars such as size, rating or default it can be configured in your config
 
   ```yaml
-  # application/config/config.yml
-  ornicar_gravatar: ~
-  ```
-
-  5. If you always have some default for your gravatars such as size, rating or default it can be configured in your config
-
-  ```yaml
-  # application/config/config.yml
-  ornicar_gravatar:
+  # config/packages/mluex_gravatar.yml
+  mluex_gravatar:
     rating: g
     size: 80
     default: mm
